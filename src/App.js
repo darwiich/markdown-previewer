@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "semantic-ui-css/semantic.min.css";
+import { Form, TextArea, Container } from "semantic-ui-react";
+import { marked } from "marked";
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  state = {
+    input: "",
+  };
+  handleChange = (event) => {
+    this.setState(() => ({
+      input: event.target.value,
+    }));
+  };
+  render() {
+    return (
+      <div>
+        <Form>
+          <h1>Editor</h1>
+          <TextArea
+            placeholder={"Type anything"}
+            id="editor"
+            value={this.state.input}
+            onChange={this.handleChange}
+          />
+        </Form>
+        <Container>
+          <h1>Previewer</h1>
+          <div
+            id="preview"
+            dangerouslySetInnerHTML={{
+              __html: marked(this.state.input),
+            }}
+          />
+        </Container>
+      </div>
+    );
+  }
 }
-
-export default App;
